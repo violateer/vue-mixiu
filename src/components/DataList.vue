@@ -19,6 +19,9 @@ export default {
         resources: {
             type: Array,
             default: () => [],
+        },
+        activeId: {
+            type: String
         }
     },
     setup(props, context) {

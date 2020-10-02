@@ -8,14 +8,14 @@
                 <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
             </h4>
             <SearchBox />
-            <DataList :resources="resources" @handleItemClick="selectResource" />
+            <DataList :resources="resources" @handleItemClick="selectResource" :activeId="activeResource?._id" />
             <!-- 添加按钮 -->
             <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">数据 {{selectedResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
+            <h4 class="mb-3">数据 {{activeResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
             <DataUpdate v-if="isDetailView" />
-            <DataDetail :resource="selectedResource" v-else />
+            <DataDetail :resource="activeResource" v-else />
         </div>
     </div>
 </div>
@@ -55,6 +55,9 @@ export default {
 
         const toggleBtnClass = computed(() => !isDetailView.value ? "btn-primary" : "btn-warning")
 
+        const activeResource = computed(() => {
+            return selectedResource.value || (getResourcesLength > 0 && data.resources[0])
+        })
         // method
         const selectResource = (resource) => {
             selectedResource.value = resource
@@ -79,7 +82,7 @@ export default {
             addResource,
             toggleBtnClass,
             selectResource,
-            selectedResource
+            activeResource
         }
     }
 }
