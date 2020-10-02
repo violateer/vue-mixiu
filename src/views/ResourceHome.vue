@@ -8,14 +8,14 @@
                 <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
             </h4>
             <SearchBox />
-            <DataList :resources="resources" />
+            <DataList :resources="resources" @handleItemClick="selectResource" />
             <!-- 添加按钮 -->
             <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">数据 <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
+            <h4 class="mb-3">数据 {{selectedResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
             <DataUpdate v-if="isDetailView" />
-            <DataDetail v-else />
+            <DataDetail :resource="selectedResource" v-else />
         </div>
     </div>
 </div>
@@ -47,12 +47,18 @@ export default {
             resources: [],
         })
         const isDetailView = ref(true)
-
+        const selectedResource = ref(null)
+        // computed
         const getResourcesLength = computed(() => {
             return data.resources.length
         })
 
         const toggleBtnClass = computed(() => !isDetailView.value ? "btn-primary" : "btn-warning")
+
+        // method
+        const selectResource = (resource) => {
+            selectedResource.value = resource
+        }
 
         const addResource = () => {
             const _id = "_" + Math.random().toString(36).slice(2)
@@ -71,7 +77,9 @@ export default {
             getResourcesLength,
             isDetailView,
             addResource,
-            toggleBtnClass
+            toggleBtnClass,
+            selectResource,
+            selectedResource
         }
     }
 }

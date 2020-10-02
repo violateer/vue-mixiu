@@ -1,6 +1,6 @@
 <template>
 <ul class="list-group resource-list mb-3">
-    <li v-for="resource in resources" :key="resource._id" :class="`${activeItemClass(resource)} list-group-item d-flex justify-content-between lh-condensed resource-list-item`">
+    <li v-for="resource in resources" :key="resource._id" :class="`${activeItemClass(resource)} list-group-item d-flex justify-content-between lh-condensed resource-list-item`" @click="onItemClick(resource)">
         <div>
             <h6 class="my-0">{{ resource.title }}</h6>
             <small class="text-muted">{{ resource.description }}</small>
@@ -22,11 +22,17 @@ export default {
         }
     },
     setup(props, context) {
+        const onItemClick = (resource) => {
+            // 注册事件
+            context.emit("handleItemClick", resource)
+        }
+
         const activeItemClass = computed(() => {
             return (resource) => (resource._id === props.activeId ? "is-active" : "");
         })
         return {
-            activeItemClass
+            activeItemClass,
+            onItemClick
         }
     }
 }
