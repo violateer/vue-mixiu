@@ -13,7 +13,7 @@
             <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">数据 <button @click="isDetailView = !isDetailView" class="btn btn-sm btn-success">切换</button></h4>
+            <h4 class="mb-3">数据 <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
             <DataUpdate v-if="isDetailView" />
             <DataDetail v-else />
         </div>
@@ -47,9 +47,13 @@ export default {
             resources: [],
         })
         const isDetailView = ref(true)
+
         const getResourcesLength = computed(() => {
             return data.resources.length
         })
+
+        const toggleBtnClass = computed(() => !isDetailView.value ? "btn-primary" : "btn-warning")
+
         const addResource = () => {
             const _id = "_" + Math.random().toString(36).slice(2)
             const type = ["book", "blog", "video"][Math.floor(Math.random() * 3)]
@@ -66,7 +70,8 @@ export default {
             ...toRefs(data),
             getResourcesLength,
             isDetailView,
-            addResource
+            addResource,
+            toggleBtnClass
         }
     }
 }

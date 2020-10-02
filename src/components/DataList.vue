@@ -1,8 +1,6 @@
 <template>
 <ul class="list-group resource-list mb-3">
-    <li v-for="resource in resources" :key="resource._id" :class="`${activeItemClass(
-        resource
-      )} list-group-item d-flex justify-content-between lh-condensed resource-list-item`">
+    <li v-for="resource in resources" :key="resource._id" :class="`${activeItemClass(resource)} list-group-item d-flex justify-content-between lh-condensed resource-list-item`">
         <div>
             <h6 class="my-0">{{ resource.title }}</h6>
             <small class="text-muted">{{ resource.description }}</small>
