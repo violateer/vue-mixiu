@@ -1,122 +1,74 @@
 <template>
 <div class="container">
-    <div class="py-5 text-center">
-        <img height="150" src="@/assets/logo.png" alt="" />
-        <h2>米修在线</h2>
-        <p class="lead">以人为镜可明得失,以代码为镜可通逻辑!</p>
-    </div>
+    <Header />
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
                 <span class="text-muted">数据</span>
-                <span class="badge badge-secondary badge-pill">6</span>
+                <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
             </h4>
-            <!-- {/* 搜索框 start */} -->
-            <form class="card p-2">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="写点啥..." />
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">搜索</button>
-                    </div>
-                </div>
-            </form>
-            <!-- {/* 搜索框 Ends */} -->
-            <!-- {/* 数据列表 Starts */} -->
-            <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">imissu 1</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">imissu 2</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">imissu 3</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0">imissu 4</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between">
-                    <div>
-                        <h6 class="my-0">imissu 5</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-light">
-                    <div class="text-success">
-                        <h6 class="my-0">imissu 6</h6>
-                        <small class="text-muted">mixiu1573</small>
-                    </div>
-                    <span class="text-muted">类型</span>
-                </li>
-            </ul>
-            <!-- {/* 数据列表 Ends */} -->
+            <SearchBox />
+            <DataList :resources="resources" />
+            <!-- 添加按钮 -->
+            <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
         </div>
-        <!-- {/* 更新数据 Starts */} -->
-        <!-- {/* <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">更新数据</h4>
-            <form>
-              <div class="mb-3">
-                <label htmlFor="firstName">用户名</label>
-                <input type="text" class="form-control" id="firstName" placeholder="用户名...." />
-              </div>
-              <div class="mb-3">
-                <label htmlFor="email">邮箱<span class="text-muted">(Optional)</span></label>
-                <input type="email" class="form-control" id="email" placeholder="邮箱..." />
-              </div>
-              <div class="mb-3">
-                <label for="description">描述</label>
-                <textarea class="form-control" id="description" placeholder="描述"></textarea>
-              </div>
-              <div class="mb-3">
-                <label htmlFor="username">用户信息</label>
-                <div class="input-group">
-                  <input type="text" class="form-control" id="username" placeholder="用户信息...." />
-                </div>
-              </div>
-              <hr class="mb-4" />
-              <button class="btn btn-primary btn-lg btn-block" type="submit">提交</button>
-            </form>
-          </div> */}
-          {/* 更新数据 Ends */} -->
-        <!-- {/* 数据详情 Starts */} -->
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">更新的数据内容</h4>
-            <div class="card">
-                <div class="card-header">数据名称</div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0">
-                        <p>描述...</p>
-                        <footer class="text-muted mb-2">类型</footer>
-                    </blockquote>
-                    <a href="#" class="btn btn-primary">编辑</a>
-                </div>
-            </div>
+            <h4 class="mb-3">数据 <button @click="isDetailView = !isDetailView" class="btn btn-sm btn-success">切换</button></h4>
+            <DataUpdate v-if="isDetailView" />
+            <DataDetail v-else />
         </div>
-        <!-- {/* 数据详情 Ends */} -->
     </div>
 </div>
 </template>
 
 <script>
+import Header from "@/components/Header.vue"
+import SearchBox from "@/components/SearchBox.vue"
+import DataList from "@/components/DataList.vue"
+import DataUpdate from "@/components/DataUpdate.vue"
+import DataDetail from "@/components/DataDetail.vue"
+import {
+    toRefs,
+    reactive,
+    computed,
+    ref
+} from 'vue'
 export default {
-
+    name: "ResourceHome",
+    components: {
+        Header,
+        SearchBox,
+        DataList,
+        DataUpdate,
+        DataDetail
+    },
+    setup() {
+        const data = reactive({
+            resources: [],
+        })
+        const isDetailView = ref(true)
+        const getResourcesLength = computed(() => {
+            return data.resources.length
+        })
+        const addResource = () => {
+            const _id = "_" + Math.random().toString(36).slice(2)
+            const type = ["book", "blog", "video"][Math.floor(Math.random() * 3)]
+            const newResource = {
+                _id,
+                title: `${_id} title`,
+                description: `${_id} description`,
+                link: "",
+                type
+            }
+            data.resources.unshift(newResource)
+        }
+        return {
+            ...toRefs(data),
+            getResourcesLength,
+            isDetailView,
+            addResource
+        }
+    }
 }
 </script>
 

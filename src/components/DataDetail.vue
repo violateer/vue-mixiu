@@ -1,0 +1,24 @@
+<template>
+<div class="col-md-8 order-md-1">
+    <div class="card">
+        <div class="card-header">数据名称</div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>描述...</p>
+                <footer class="text-muted mb-2">类型</footer>
+            </blockquote>
+            <a href="#" class="btn btn-primary">编辑</a>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+
+</style>
