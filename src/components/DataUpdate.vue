@@ -67,6 +67,10 @@ export default {
         const setAlert = (type, message) => {
             data.alert = initAlert()
             data.alert[type] = message
+
+            setTimeout(() => {
+                data.alert = initAlert()
+            }, 3000);
         }
 
         const handleUpdate = async () => {
@@ -74,8 +78,8 @@ export default {
                 const updatedResource = await updateResource(uResource.value._id, uResource.value)
                 context.emit("onUpdateResource", updatedResource)
                 setAlert("success", "Resource was updated")
-            } catch (e) {
-                setAlert("error", e?.message)
+            } catch (errorMessage) {
+                setAlert("error", errorMessage)
             }
         }
 
