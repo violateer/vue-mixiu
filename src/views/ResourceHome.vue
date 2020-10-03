@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">数据 {{activeResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
-            <DataUpdate :resource="activeResource" v-if="isDetailView" />
+            <DataUpdate :resource="activeResource" v-if="!isDetailView" />
             <DataDetail :resource="activeResource" v-else />
         </div>
     </div>

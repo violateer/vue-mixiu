@@ -25,7 +25,8 @@
 
 <script>
 import {
-    ref
+    ref,
+    watch
 } from 'vue'
 export default {
     props: {
@@ -35,6 +36,9 @@ export default {
     },
     setup(props, context) {
         const updateResource = ref(props.resource)
+        watch(() => props.resource, (resource, prevResource) => {
+            updateResource.value = resource
+        })
         return {
             updateResource
         }
