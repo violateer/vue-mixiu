@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">数据 {{activeResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
-            <DataUpdate :resource="activeResource" v-if="!isDetailView" />
+            <DataUpdate @onUpdateResource="handleUpdateResource" :resource="activeResource" v-if="!isDetailView" />
             <DataDetail :resource="activeResource" v-else />
         </div>
     </div>
@@ -28,7 +28,7 @@ import DataList from "@/components/DataList.vue"
 import DataUpdate from "@/components/DataUpdate.vue"
 import DataDetail from "@/components/DataDetail.vue"
 import {
-    fetchResources
+    fetchResource
 } from "@/actions"
 import {
     onMounted
@@ -57,7 +57,7 @@ export default {
 
         // 生命周期钩子
         onMounted(async () => {
-            const res = await fetchResources()
+            const res = await fetchResource()
             data.resources = res
         })
 
@@ -88,6 +88,14 @@ export default {
             }
             data.resources.unshift(newResource)
         }
+
+        const handleUpdateResource = (newResource) => {
+            const index = data.resources.findIndex(resource => resource._id === newResource._id)
+            data.resources[index] = newResource
+
+            selectResource(newResource)
+        }
+
         return {
             ...toRefs(data),
             getResourcesLength,
@@ -95,7 +103,8 @@ export default {
             addResource,
             toggleBtnClass,
             selectResource,
-            activeResource
+            activeResource,
+            handleUpdateResource
         }
     }
 }
