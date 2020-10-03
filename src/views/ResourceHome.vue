@@ -1,32 +1,28 @@
 <template>
-<div class="container">
-    <Header />
-    <div class="row">
-        <div class="col-md-4 order-md-2 mb-4">
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">数据</span>
-                <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
-            </h4>
-            <SearchBox />
-            <DataList :resources="resources" @handleItemClick="selectResource" :activeId="activeResource?._id" />
-            <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
-        </div>
-        <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">数据 {{activeResource?._id}}
-                <template v-if="getResourcesLength">
-                    <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass} mr-2`">{{!isDetailView ? "更新" : "详情"}}</button>
-                    <DataDelete @onResourceDelete="handleResourceDelete" :activeId="activeResource?._id" />
-                </template>
-            </h4>
-            <DataUpdate @onUpdateResource="handleUpdateResource" :resource="activeResource" v-if="!isDetailView" />
-            <DataDetail :resource="activeResource" v-else />
-        </div>
+<div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">数据</span>
+            <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
+        </h4>
+        <SearchBox />
+        <DataList :resources="resources" @handleItemClick="selectResource" :activeId="activeResource?._id" />
+        <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
+    </div>
+    <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">数据 {{activeResource?._id}}
+            <template v-if="getResourcesLength">
+                <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass} mr-2`">{{!isDetailView ? "更新" : "详情"}}</button>
+                <DataDelete @onResourceDelete="handleResourceDelete" :activeId="activeResource?._id" />
+            </template>
+        </h4>
+        <DataUpdate @onUpdateResource="handleUpdateResource" :resource="activeResource" v-if="!isDetailView" />
+        <DataDetail :resource="activeResource" v-else />
     </div>
 </div>
 </template>
 
 <script>
-import Header from "@/components/Header.vue"
 import SearchBox from "@/components/SearchBox.vue"
 import DataList from "@/components/DataList.vue"
 import DataUpdate from "@/components/DataUpdate.vue"
@@ -47,7 +43,6 @@ import {
 export default {
     name: "ResourceHome",
     components: {
-        Header,
         SearchBox,
         DataList,
         DataUpdate,
