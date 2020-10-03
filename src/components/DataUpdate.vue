@@ -1,5 +1,7 @@
 <template>
 <form>
+    <div v-if="alert?.success" class="alert alert-success">{{alert.success}}</div>
+    <div v-if="alert?.error" class="alert alert-danger">{{alert.error}}</div>
     <div class="mb-3">
         <label htmlFor="title">标题</label>
         <input v-model="uResource.title" type="text" class="form-control" id="title" placeholder="标题...." />
@@ -28,7 +30,9 @@
 <script>
 import {
     ref,
-    watch
+    watch,
+    reactive,
+    toRefs
 } from 'vue'
 import {
     updateResource
@@ -42,17 +46,41 @@ export default {
     setup(props, context) {
         const uResource = ref(props.resource)
         const types = ["book", "video", "blog"]
+        const data = reactive({
+            alert: {
+                success: null,
+                error: null
+            }
+        })
 
         watch(() => props.resource, (resource, prevResource) => {
             uResource.value = resource
         })
 
+        const initAlert = () => {
+            return {
+                success: null,
+                error: null
+            }
+        }
+
+        const setAlert = (type, message) => {
+            data.alert = initAlert()
+            data.alert[type] = message
+        }
+
         const handleUpdate = async () => {
-            const updatedResource = await updateResource(uResource.value._id, uResource.value)
-            context.emit("onUpdateResource", updatedResource)
+            try {
+                const updatedResource = await updateResource(uResource.value._id, uResource.value)
+                context.emit("onUpdateResource", updatedResource)
+                setAlert("success", "Resource was updated")
+            } catch (e) {
+                setAlert("error", e?.message)
+            }
         }
 
         return {
+            ...toRefs(data),
             uResource,
             types,
             handleUpdate
