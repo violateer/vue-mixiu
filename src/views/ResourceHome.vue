@@ -28,6 +28,12 @@ import DataList from "@/components/DataList.vue"
 import DataUpdate from "@/components/DataUpdate.vue"
 import DataDetail from "@/components/DataDetail.vue"
 import {
+    fetchResources
+} from "@/actions"
+import {
+    onMounted
+} from "vue"
+import {
     toRefs,
     reactive,
     computed,
@@ -48,6 +54,15 @@ export default {
         })
         const isDetailView = ref(true)
         const selectedResource = ref(null)
+
+        // 生命周期钩子
+        onMounted(async () => {
+            const {
+                data
+            } = await fetchResources()
+            console.log(data);
+        })
+
         // computed
         const getResourcesLength = computed(() => {
             return data.resources.length
