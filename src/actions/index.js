@@ -7,3 +7,7 @@ export function fetchResource() {
 export function updateResource(id, resource) {
     return axios.patch(`/api/resources/${id}`, resource).then(res => res.data).catch(err => Promise.reject(err?.response?.data))
 }
+
+export function deleteResource(id) {
+    return axios.delete(`/api/resources/${id}`).then(res => res.data).catch(err => Promise.reject(err?.response?.data))
+}
