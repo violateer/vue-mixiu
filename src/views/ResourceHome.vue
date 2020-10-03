@@ -57,10 +57,8 @@ export default {
 
         // 生命周期钩子
         onMounted(async () => {
-            const {
-                data
-            } = await fetchResources()
-            console.log(data);
+            const res = await fetchResources()
+            data.resources = res
         })
 
         // computed
