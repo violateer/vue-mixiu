@@ -32,7 +32,8 @@ import {
     ref,
     watch,
     reactive,
-    toRefs
+    toRefs,
+    onBeforeUnmount
 } from 'vue'
 import {
     updateResource
@@ -50,11 +51,16 @@ export default {
             alert: {
                 success: null,
                 error: null
-            }
+            },
+            timeOutId: null
         })
 
         watch(() => props.resource, (resource, prevResource) => {
             uResource.value = resource
+            if (resource && (resource._id !== resource._id)) {
+                clearAlertTimeout()
+                data.alert = initAlert()
+            }
         })
 
         const initAlert = () => {
@@ -64,11 +70,19 @@ export default {
             }
         }
 
+        onBeforeUnmount(() => {
+            clearAlertTimeout()
+        })
+
+        const clearAlertTimeout = () => {
+            data.timeOutId && clearTimeout(data.timeOutId)
+        }
+
         const setAlert = (type, message) => {
             data.alert = initAlert()
             data.alert[type] = message
 
-            setTimeout(() => {
+            data.timeOutId = setTimeout(() => {
                 data.alert = initAlert()
             }, 3000);
         }
