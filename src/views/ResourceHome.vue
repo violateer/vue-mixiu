@@ -7,7 +7,7 @@
         </h4>
         <SearchBox />
         <DataList :resources="resources" @handleItemClick="selectResource" :activeId="activeResource?._id" />
-        <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button>
+        <!-- <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button> -->
     </div>
     <div class="col-md-8 order-md-1">
         <h4 class="mb-3">数据 {{activeResource?._id}}
