@@ -1,21 +1,21 @@
 <template>
 <form>
     <div class="mb-3">
-        <label htmlFor="firstName">用户名</label>
-        <input type="text" class="form-control" id="firstName" placeholder="用户名...." />
-    </div>
-    <div class="mb-3">
-        <label htmlFor="email">邮箱<span class="text-muted">(可选)</span></label>
-        <input type="email" class="form-control" id="email" placeholder="邮箱..." />
+        <label htmlFor="title">标题</label>
+        <input v-model="updateResource.title" type="text" class="form-control" id="title" placeholder="标题...." />
     </div>
     <div class="mb-3">
         <label for="description">描述</label>
-        <textarea class="form-control" id="description" placeholder="描述"></textarea>
+        <textarea v-model="updateResource.description" class="form-control" id="description" placeholder="描述"></textarea>
     </div>
     <div class="mb-3">
-        <label htmlFor="username">用户信息</label>
+        <label htmlFor="type">类型<span class="text-muted">(可选)</span></label>
+        <input v-model="updateResource.type" type="text" class="form-control" id="type" placeholder="类型..." />
+    </div>
+    <div class="mb-3">
+        <label htmlFor="link">链接</label>
         <div class="input-group">
-            <input type="text" class="form-control" id="username" placeholder="用户信息...." />
+            <input v-model="updateResource.link" type="text" class="form-control" id="link" placeholder="链接...." />
         </div>
     </div>
     <hr class="mb-4" />
@@ -24,8 +24,21 @@
 </template>
 
 <script>
+import {
+    ref
+} from 'vue'
 export default {
-
+    props: {
+        resource: {
+            type: Object
+        }
+    },
+    setup(props, context) {
+        const updateResource = ref(props.resource)
+        return {
+            updateResource
+        }
+    }
 }
 </script>
 

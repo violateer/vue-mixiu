@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">数据 {{activeResource?._id}} <button @click="isDetailView = !isDetailView" :class="`btn btn-sm ${toggleBtnClass}`">{{!isDetailView ? "更新" : "详情"}}</button></h4>
-            <DataUpdate v-if="isDetailView" />
+            <DataUpdate :resource="activeResource" v-if="isDetailView" />
             <DataDetail :resource="activeResource" v-else />
         </div>
     </div>
@@ -66,7 +66,7 @@ export default {
             return data.resources.length
         })
 
-        const toggleBtnClass = computed(() => !isDetailView.value ? "btn-primary" : "btn-warning")
+        const toggleBtnClass = computed(() => isDetailView.value ? "btn-primary" : "btn-warning")
 
         const activeResource = computed(() => {
             return selectedResource.value || (getResourcesLength > 0 && data.resources[0])
