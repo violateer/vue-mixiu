@@ -1,5 +1,9 @@
 <template>
-<DataDetail :resource="resource" />
+<DataDetail :resource="resource">
+    <template #buttonLink>
+        <button @click="$router.go(-1)" class="btn btn-outline-success">返回</button>
+    </template>
+</DataDetail>
 </template>
 
 <script>

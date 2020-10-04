@@ -17,7 +17,11 @@
             </template>
         </h4>
         <DataUpdate @onUpdateResource="handleUpdateResource" :resource="activeResource" v-if="!isDetailView" />
-        <DataDetail :resource="activeResource" v-else />
+        <DataDetail :resource="activeResource" v-else>
+            <template #buttonLink>
+                <router-link :to="{name: 'resourceDetailPage', params: {id: activeResource?._id}}" class="btn btn-outline-success">详情</router-link>
+            </template>
+        </DataDetail>
     </div>
 </div>
 </template>

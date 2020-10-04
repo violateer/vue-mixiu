@@ -10,7 +10,7 @@
             <footer class="text-muted mb-2">{{resource.type}}</footer>
         </blockquote>
         <a target="_blank" :href="resource.link" class="btn btn-outline-primary mr-2">访问</a>
-        <router-link :to="{name: 'resourceDetailPage', params: {id: resource._id}}" class="btn btn-outline-success">详情</router-link>
+        <slot name="buttonLink"></slot>
     </div>
 </div>
 </template>
