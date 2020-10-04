@@ -3,8 +3,8 @@
     <img height="150" src="@/assets/logo.png" alt="" />
     <h2>米修在线</h2>
     <p class="lead">以人为镜可明得失,以代码为镜可通逻辑!</p>
-    <router-link class="btn btn-outline-primary mr-2" to="/resources">首页</router-link>
-    <router-link class="btn btn-outline-primary" to="/resources/new">添加</router-link>
+    <router-link class="btn btn-outline-primary mr-2" :to="{name: 'resourceHomePage'}">首页</router-link>
+    <router-link class="btn btn-outline-primary" :to="{name: 'resourceNewPage'}">添加</router-link>
 </div>
 </template>
 

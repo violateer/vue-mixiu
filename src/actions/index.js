@@ -11,3 +11,7 @@ export function updateResource(id, resource) {
 export function deleteResource(id) {
     return axios.delete(`/api/resources/${id}`).then(res => res.data).catch(err => Promise.reject(err?.response?.data))
 }
+
+export function createResource(resource) {
+    return axios.post(`/api/resources`,resource).then(res => res.data).catch(err => Promise.reject(err?.response?.data))
+}
