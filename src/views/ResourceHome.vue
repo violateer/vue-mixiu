@@ -5,7 +5,7 @@
             <span class="text-muted">数据</span>
             <span class="badge badge-secondary badge-pill">{{getResourcesLength}}</span>
         </h4>
-        <SearchBox />
+        <SearchBox @onsearch="handleSearch" />
         <DataList :resources="resources" @handleItemClick="selectResource" :activeId="activeResource?._id" />
         <!-- <button class="btn btn-sm btn-primary" @click="addResource">添加数据</button> -->
     </div>
@@ -33,7 +33,8 @@ import DataUpdate from "@/components/DataUpdate.vue"
 import DataDetail from "@/components/DataDetail.vue"
 import DataDelete from "@/components/DataDelete.vue"
 import {
-    fetchResource
+    fetchResource,
+    searchResources
 } from "@/actions"
 import {
     onMounted
@@ -61,9 +62,8 @@ export default {
         const selectedResource = ref(null)
 
         // 生命周期钩子
-        onMounted(async () => {
-            const res = await fetchResource()
-            data.resources = res
+        onMounted(() => {
+            getResources()
         })
 
         // computed
@@ -107,6 +107,20 @@ export default {
             selectResource(data.resources[0] || null)
         }
 
+        const handleSearch = async (title) => {
+            if (!title) {
+                getResources()
+                return
+            }
+            data.resources = await searchResources(title)
+            selectedResource.value = null
+        }
+
+        const getResources = async () => {
+            const res = await fetchResource()
+            data.resources = res
+        }
+
         return {
             ...toRefs(data),
             getResourcesLength,
@@ -116,7 +130,8 @@ export default {
             selectResource,
             activeResource,
             handleUpdateResource,
-            handleResourceDelete
+            handleResourceDelete,
+            handleSearch
         }
     }
 }

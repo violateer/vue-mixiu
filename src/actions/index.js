@@ -8,6 +8,10 @@ export function fetchRes(resourceId) {
     return axios.get(`/api/resources/${resourceId}`).then(res => res.data)
 }
 
+export function searchResources(title) {
+    return axios.get(`/api/resources/s/${title}`).then(res => res.data)
+}
+
 export function updateResource(id, resource) {
     return axios.patch(`/api/resources/${id}`, resource).then(res => res.data).catch(err => Promise.reject(err?.response?.data))
 }

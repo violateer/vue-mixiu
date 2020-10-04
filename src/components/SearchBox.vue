@@ -1,10 +1,7 @@
 <template>
 <form class="card p-2">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="写点啥..." />
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-secondary">搜索</button>
-        </div>
+        <input @keyup="$emit('onsearch', $event.target.value)" type="text" class="form-control" placeholder="写点啥..." />
     </div>
 </form>
 </template>
